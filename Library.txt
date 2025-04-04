@@ -4,53 +4,12 @@ local InputService = game:GetService("UserInputService")
 local Linux = {
     Themes = {
         Default = {
-            Background = Color3.fromRGB(24, 24, 24),
-            Element = Color3.fromRGB(28, 28, 28),
+            Background = Color3.fromRGB(23, 23, 23),
+            Element = Color3.fromRGB(27, 27, 27),
             Accent = Color3.fromRGB(80, 120, 255),
-            Text = Color3.fromRGB(220, 220, 220),
+            Text = Color3.fromRGB(150, 150, 150),
             Toggle = Color3.fromRGB(40, 40, 40),
-            TabActive = Color3.fromRGB(80, 120, 255),
-            TabInactive = Color3.fromRGB(28, 28, 28),
-            DropdownOption = Color3.fromRGB(30, 30, 30)
-        },
-        Green = {
-            Background = Color3.fromRGB(24, 24, 24),
-            Element = Color3.fromRGB(28, 28, 28),
-            Accent = Color3.fromRGB(0, 255, 0),
-            Text = Color3.fromRGB(220, 220, 220),
-            Toggle = Color3.fromRGB(40, 40, 40),
-            TabActive = Color3.fromRGB(0, 255, 0),
-            TabInactive = Color3.fromRGB(28, 28, 28),
-            DropdownOption = Color3.fromRGB(30, 30, 30)
-        },
-        Red = {
-            Background = Color3.fromRGB(24, 24, 24),
-            Element = Color3.fromRGB(28, 28, 28),
-            Accent = Color3.fromRGB(255, 0, 0),
-            Text = Color3.fromRGB(220, 220, 220),
-            Toggle = Color3.fromRGB(40, 40, 40),
-            TabActive = Color3.fromRGB(255, 0, 0),
-            TabInactive = Color3.fromRGB(28, 28, 28),
-            DropdownOption = Color3.fromRGB(30, 30, 30)
-        },
-        Purple = {
-            Background = Color3.fromRGB(24, 24, 24),
-            Element = Color3.fromRGB(28, 28, 28),
-            Accent = Color3.fromRGB(128, 0, 128),
-            Text = Color3.fromRGB(220, 220, 220),
-            Toggle = Color3.fromRGB(40, 40, 40),
-            TabActive = Color3.fromRGB(128, 0, 128),
-            TabInactive = Color3.fromRGB(28, 28, 28),
-            DropdownOption = Color3.fromRGB(30, 30, 30)
-        },
-        Cinza = {
-            Background = Color3.fromRGB(24, 24, 24),
-            Element = Color3.fromRGB(28, 28, 28),
-            Accent = Color3.fromRGB(128, 128, 128),
-            Text = Color3.fromRGB(220, 220, 220),
-            Toggle = Color3.fromRGB(40, 40, 40),
-            TabActive = Color3.fromRGB(128, 128, 128),
-            TabInactive = Color3.fromRGB(28, 28, 28),
+            TabInactive = Color3.fromRGB(27, 27, 27),
             DropdownOption = Color3.fromRGB(30, 30, 30)
         }
     },
@@ -67,12 +26,7 @@ end
 
 function Linux.Create(Name, config)
     config = config or {}
-    local themeName = config.Theme or "Default"
-    if Linux.Themes[themeName] then
-        Linux.CurrentTheme = themeName
-    else
-        Linux.CurrentTheme = "Default"
-    end
+    Linux.CurrentTheme = "Default"
 
     for _, v in pairs(game.CoreGui:GetChildren()) do
         if v.Name == "LinuxUI" then
@@ -121,7 +75,7 @@ function Linux.Create(Name, config)
         Position = UDim2.new(0, 5, 0, 0),
         Font = Enum.Font.SourceSansBold,
         Text = Name,
-        TextColor3 = Linux.Themes[Linux.CurrentTheme].Text,
+        TextColor3 = Color3.fromRGB(255, 255, 255),
         TextSize = 16,
         TextXAlignment = Enum.TextXAlignment.Left,
         ZIndex = 2
@@ -143,7 +97,7 @@ function Linux.Create(Name, config)
         Size = UDim2.new(0, 16, 0, 16),
         Position = UDim2.new(0.5, -8, 0.5, -8),
         Image = "rbxassetid://10734895698",
-        ImageColor3 = Linux.Themes[Linux.CurrentTheme].Text,
+        ImageColor3 = Color3.fromRGB(255, 255, 255),
         ZIndex = 3
     })
 
@@ -163,7 +117,7 @@ function Linux.Create(Name, config)
         Size = UDim2.new(0, 16, 0, 16),
         Position = UDim2.new(0.5, -8, 0.5, -8),
         Image = "rbxassetid://10747384394",
-        ImageColor3 = Linux.Themes[Linux.CurrentTheme].Text,
+        ImageColor3 = Color3.fromRGB(255, 255, 255),
         ZIndex = 3
     })
 
@@ -305,7 +259,7 @@ function Linux.Create(Name, config)
             Position = UDim2.new(0, 5, 0, 0),
             Font = Enum.Font.SourceSansBold,
             Text = config.Name,
-            TextColor3 = Linux.Themes[Linux.CurrentTheme].Text,
+            TextColor3 = Color3.fromRGB(255, 255, 255),
             TextSize = 18,
             TextXAlignment = Enum.TextXAlignment.Left,
             ZIndex = 2
@@ -335,12 +289,16 @@ function Linux.Create(Name, config)
         TabBtn.MouseButton1Click:Connect(function()
             for tabName, tab in pairs(Tabs) do
                 tab.Content.Visible = false
-                tab.Button.BackgroundColor3 = Linux.Themes[Linux.CurrentTheme].TabInactive
                 tab.Text.TextColor3 = Linux.Themes[Linux.CurrentTheme].Text
+                if tab.Icon then
+                    tab.Icon.ImageColor3 = Linux.Themes[Linux.CurrentTheme].Text
+                end
             end
             TabContent.Visible = true
-            TabBtn.BackgroundColor3 = Linux.Themes[Linux.CurrentTheme].TabActive
-            TabText.TextColor3 = Linux.Themes[Linux.CurrentTheme].Text
+            TabText.TextColor3 = Color3.fromRGB(255, 255, 255)
+            if TabIcon then
+                TabIcon.ImageColor3 = Color3.fromRGB(255, 255, 255)
+            end
             CurrentTab = config.Name
         end)
 
@@ -353,8 +311,10 @@ function Linux.Create(Name, config)
 
         if not CurrentTab then
             TabContent.Visible = true
-            TabBtn.BackgroundColor3 = Linux.Themes[Linux.CurrentTheme].TabActive
-            TabText.TextColor3 = Linux.Themes[Linux.CurrentTheme].Text
+            TabText.TextColor3 = Color3.fromRGB(255, 255, 255)
+            if TabIcon then
+                TabIcon.ImageColor3 = Color3.fromRGB(255, 255, 255)
+            end
             CurrentTab = config.Name
         end
 
@@ -434,7 +394,8 @@ function Linux.Create(Name, config)
 
             local Knob = Linux.Instance("Frame", {
                 Parent = ToggleBox,
-                BackgroundColor3 = Linux.Themes[Linux.CurrentTheme].Text,
+                BackgroundColor3 = Color3.fromRGB(128, 0, 128),
+                BackgroundTransparency = 0.5,
                 Size = UDim2.new(0, 12, 1, -2),
                 Position = UDim2.new(0, 1, 0, 1),
                 ZIndex = 1
@@ -450,11 +411,9 @@ function Linux.Create(Name, config)
             local function UpdateToggle()
                 local tween = TweenInfo.new(0.2, Enum.EasingStyle.Quad)
                 if State then
-                    TweenService:Create(ToggleBox, tween, {BackgroundColor3 = Linux.Themes[Linux.CurrentTheme].Accent}):Play()
-                    TweenService:Create(Knob, tween, {Position = UDim2.new(1, -13, 0, 1)}):Play()
+                    TweenService:Create(Knob, tween, {BackgroundColor3 = Color3.fromRGB(128, 0, 128), BackgroundTransparency = 0, Position = UDim2.new(1, -13, 0, 1)}):Play()
                 else
-                    TweenService:Create(ToggleBox, tween, {BackgroundColor3 = Linux.Themes[Linux.CurrentTheme].Toggle}):Play()
-                    TweenService:Create(Knob, tween, {Position = UDim2.new(0, 1, 0, 1)}):Play()
+                    TweenService:Create(Knob, tween, {BackgroundColor3 = Color3.fromRGB(128, 0, 128), BackgroundTransparency = 0.5, Position = UDim2.new(0, 1, 0, 1)}):Play()
                 end
             end
 
@@ -717,7 +676,7 @@ function Linux.Create(Name, config)
 
             local Knob = Linux.Instance("Frame", {
                 Parent = SliderBar,
-                BackgroundColor3 = Linux.Themes[Linux.CurrentTheme].Text,
+                BackgroundColor3 = Color3.fromRGB(255, 255, 255),
                 Size = UDim2.new(0, 12, 0, 12),
                 Position = UDim2.new(0, 0, 0, -3),
                 ZIndex = 2
@@ -820,7 +779,7 @@ function Linux.Create(Name, config)
                 Font = Enum.Font.SourceSans,
                 Text = config.Default or "",
                 PlaceholderText = config.Placeholder or "Text Here",
-                PlaceholderColor3 = Color3.fromRGB(150, 150, 150),
+                PlaceholderColor3 = Color3.fromRGB(100, 100, 100),
                 TextColor3 = Linux.Themes[Linux.CurrentTheme].Text,
                 TextSize = 14,
                 TextScaled = false,
@@ -931,32 +890,16 @@ function Linux.Create(Name, config)
                 LayoutOrder = elementOrder
             })
 
-            local LeftLine = Linux.Instance("Frame", {
-                Parent = Section,
-                BackgroundColor3 = Linux.Themes[Linux.CurrentTheme].Accent,
-                Size = UDim2.new(0.4, -10, 0, 1),
-                Position = UDim2.new(0, 5, 0.5, 0),
-                ZIndex = 1
-            })
-
             local SectionText = Linux.Instance("TextLabel", {
                 Parent = Section,
                 BackgroundTransparency = 1,
-                Size = UDim2.new(0.2, 0, 1, 0),
-                Position = UDim2.new(0.4, 0, 0, 0),
+                Size = UDim2.new(1, -10, 1, 0),
+                Position = UDim2.new(0, 5, 0, 0),
                 Font = Enum.Font.SourceSansBold,
                 Text = config.Name,
-                TextColor3 = Linux.Themes[Linux.CurrentTheme].Text,
+                TextColor3 = Color3.fromRGB(255, 255, 255),
                 TextSize = 14,
-                TextXAlignment = Enum.TextXAlignment.Center,
-                ZIndex = 1
-            })
-
-            local RightLine = Linux.Instance("Frame", {
-                Parent = Section,
-                BackgroundColor3 = Linux.Themes[Linux.CurrentTheme].Accent,
-                Size = UDim2.new(0.4, -10, 0, 1),
-                Position = UDim2.new(0.6, 5, 0.5, 0),
+                TextXAlignment = Enum.TextXAlignment.Left,
                 ZIndex = 1
             })
 
